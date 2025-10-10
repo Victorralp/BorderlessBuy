@@ -37,11 +37,11 @@ const ProductSkeleton = () => (
 
 export default function HomePage() {
   return (
-    <main className="flex flex-col bg-gray-50 text-gray-900">
+    <main className="flex flex-col bg-slate-50 text-gray-900">
       <div className="relative">
         <Hero />
       </div>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         <Suspense fallback={<ProductSkeleton />}>
           <FeaturedProducts />
         </Suspense>

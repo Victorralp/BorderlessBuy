@@ -736,8 +736,8 @@ export default function ShopPage() {
   );
   
   return (
-    <div className="min-h-screen py-8 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen py-8 bg-slate-50">
+      <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Shop</h1>

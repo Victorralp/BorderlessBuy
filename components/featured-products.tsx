@@ -180,25 +180,24 @@ export default function FeaturedProducts() {
 
   return (
     <>
-      <section className="py-12 bg-white text-gray-800">
-        <div className="flex flex-col items-center mb-8">
-          <div className="inline-flex items-center bg-green-50 text-green-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4 border border-green-100">
+      <section className="py-16 bg-white text-gray-900">
+        <div className="flex flex-col items-center mb-12 max-w-3xl mx-auto px-4">
+          <div className="inline-flex items-center bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
             <Sparkles className="h-4 w-4 mr-2" />
             <span>Handpicked Selection</span>
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-gray-800">Featured Products</h2>
-          <div className="w-16 h-0.5 bg-gradient-to-r from-green-500 to-green-600 rounded-full mb-4"></div>
-          <p className="text-gray-600 text-center max-w-xl mb-6 text-sm">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">Featured Products</h2>
+          <p className="text-gray-600 text-center max-w-2xl leading-relaxed">
             Discover our curated selection of premium African and international products, from beverages and food to spices and fresh produce.
           </p>
         </div>
         
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4">
             {products.map((product) => (
-              <Card 
-                key={product.id} 
-                className="group relative overflow-hidden shadow-soft hover:shadow-soft-lg hover:-translate-y-2 transition-all duration-300 rounded-2xl bg-white"
+              <Card
+                key={product.id}
+                className="group relative overflow-hidden border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 rounded-xl bg-white"
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
               >
