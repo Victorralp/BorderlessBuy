@@ -77,9 +77,10 @@ const config = {
         "3xl": "2rem",
       },
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'soft-lg': '0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 15px 35px -5px rgba(0, 0, 0, 0.06)',
-        'soft-xl': '0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.08)',
+        'soft': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'soft-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'soft-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
       },
       keyframes: {
         "accordion-down": {

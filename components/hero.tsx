@@ -99,8 +99,8 @@ export default function Hero() {
   }
 
   return (
-    <section 
-      className="relative h-[70vh] sm:h-[80vh] md:h-[90vh] lg:h-[95vh] overflow-hidden bg-white border-b border-gray-200 mb-8"
+    <section
+      className="relative h-[600px] sm:h-[650px] md:h-[700px] overflow-hidden bg-gradient-to-br from-slate-50 to-white"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -109,7 +109,7 @@ export default function Hero() {
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1500 ease-in-out bg-gradient-to-br from-green-600 to-green-800 ${
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -142,55 +142,48 @@ export default function Hero() {
               transitionDuration: '15000ms'
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-transparent" />
           
-          <div className="absolute inset-0 flex flex-col items-center justify-center md:items-start">
-            <div 
-              className={`text-center md:text-left max-w-5xl px-6 md:px-16 transform transition-all duration-1000 ease-out ${
-                index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          <div className="absolute inset-0 flex items-center justify-start">
+            <div
+              className={`max-w-2xl px-6 md:px-16 transform transition-all duration-700 ease-out ${
+                index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
               }`}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <span className="inline-block px-5 py-2 bg-green-600 text-white text-xs md:text-sm font-semibold rounded-full shadow-soft-lg">✨ Limited Time Offers</span>
-                <span className="inline-block px-4 py-2 bg-white/20 text-white text-xs font-medium rounded-full backdrop-blur-sm border border-white/30">
-                  {currentSlide + 1} / {slides.length}
-                </span>
+              <div className="inline-flex items-center gap-2 mb-6 bg-emerald-500/90 backdrop-blur-sm px-4 py-2 rounded-full">
+                <span className="text-white text-sm font-medium">Limited Offers</span>
               </div>
-              
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2 sm:mb-4 drop-shadow-lg text-white">
+
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-white leading-tight">
                 {slide.title}
               </h1>
-              
-              <p className="text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 text-white/90 drop-shadow-md max-w-2xl">
+
+              <p className="text-lg sm:text-xl md:text-2xl mb-6 text-white/95 max-w-xl leading-relaxed">
                 {slide.subtitle}
               </p>
-              
-              <p className="hidden md:block text-white/80 max-w-xl mb-6 text-lg">
+
+              <p className="hidden md:block text-white/85 max-w-lg mb-8 text-base leading-relaxed">
                 {slide.description}
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center sm:items-start md:items-center justify-center md:justify-start gap-4 mt-8">
-                <Button 
-                  size="lg" 
+              <div className="flex flex-col sm:flex-row items-start gap-4">
+                <Button
+                  size="lg"
                   asChild
-                  className="bg-green-600 hover:bg-green-700 text-white px-10 sm:px-12 py-6 text-base sm:text-lg font-bold shadow-soft-xl hover:shadow-soft-xl hover:-translate-y-1 transition-all rounded-full group relative overflow-hidden"
+                  className="bg-white text-gray-900 hover:bg-gray-50 px-8 py-6 text-base font-semibold shadow-xl hover:shadow-2xl transition-all rounded-lg group"
                 >
-                  <Link href={slide.ctaLink}>
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-green-500/30 to-transparent transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
-                    <ShoppingBag className="mr-2 h-5 w-5 group-hover:animate-bounce" />
+                  <Link href={slide.ctaLink} className="flex items-center gap-2">
                     {slide.cta}
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   variant="outline"
                   onClick={scrollToNewsletter}
-                  className="bg-white text-gray-900 border-0 hover:bg-white/95 px-10 sm:px-12 py-6 text-base sm:text-lg font-bold shadow-soft-xl hover:shadow-soft-xl hover:-translate-y-1 transition-all rounded-full group relative overflow-hidden"
+                  className="bg-transparent text-white border-2 border-white/40 backdrop-blur-sm hover:bg-white/10 px-8 py-6 text-base font-semibold transition-all rounded-lg"
                 >
-                  <span className="absolute inset-0 w-full h-full bg-gray-100/50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
-                  <Mail className="mr-2 h-5 w-5 group-hover:animate-pulse text-green-600" />
-                  Subscribe
+                  Learn More
                 </Button>
               </div>
             </div>
@@ -202,7 +195,7 @@ export default function Hero() {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:bg-white hover:text-green-600 h-14 w-14 rounded-full shadow-soft-lg hover:shadow-soft-xl backdrop-blur-md bg-white/20 hover:scale-110 border-2 border-white/30 flex items-center justify-center transition-all"
+        className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 h-12 w-12 rounded-full backdrop-blur-sm bg-white/10 hover:scale-105 border border-white/20 transition-all"
         onClick={() => {
           console.log('Hero slider: Previous button clicked')
           prevSlide()
@@ -214,7 +207,7 @@ export default function Hero() {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:bg-white hover:text-green-600 h-14 w-14 rounded-full shadow-soft-lg hover:shadow-soft-xl backdrop-blur-md bg-white/20 hover:scale-110 border-2 border-white/30 flex items-center justify-center transition-all"
+        className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 h-12 w-12 rounded-full backdrop-blur-sm bg-white/10 hover:scale-105 border border-white/20 transition-all"
         onClick={() => {
           console.log('Hero slider: Next button clicked')
           nextSlide()
@@ -225,14 +218,14 @@ export default function Hero() {
       </Button>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3 z-[50] bg-white/20 backdrop-blur-md rounded-full px-4 py-3 border border-white/30 shadow-soft-lg">
+      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-[50] bg-black/20 backdrop-blur-sm rounded-full px-4 py-2">
         {slides.map((_, index) => (
           <button
             key={index}
             className={`rounded-full transition-all duration-300 ${
-              index === currentSlide 
-                ? "bg-white w-10 sm:w-14 h-3 shadow-soft" 
-                : "bg-white/60 hover:bg-white/90 w-3 h-3"
+              index === currentSlide
+                ? "bg-white w-8 h-2"
+                : "bg-white/50 hover:bg-white/75 w-2 h-2"
             }`}
             onClick={() => {
               console.log(`Hero slider: Manual navigation to slide ${index}`)
