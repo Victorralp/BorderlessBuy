@@ -145,7 +145,7 @@ export default function FeaturedProducts() {
       price: product.discount ? product.price * (1 - product.discount / 100) : product.price,
       originalPrice: product.discount ? product.price : undefined,
       image: product.images?.[0] || "/placeholder.jpg",
-      category: product.category || product.displayCategory,
+      category: product.category,
       inStock: product.inStock !== false // Default to true if not specified
     };
     
@@ -180,25 +180,25 @@ export default function FeaturedProducts() {
 
   return (
     <>
-      <section className="py-16 bg-white text-gray-800">
-        <div className="flex flex-col items-center mb-12">
+      <section className="py-12 bg-white text-gray-800">
+        <div className="flex flex-col items-center mb-8">
           <div className="inline-flex items-center bg-green-50 text-green-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4 border border-green-100">
             <Sparkles className="h-4 w-4 mr-2" />
             <span>Handpicked Selection</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">Featured Products</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-green-600 rounded-full mb-6"></div>
-          <p className="text-gray-600 text-center max-w-2xl mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-gray-800">Featured Products</h2>
+          <div className="w-16 h-0.5 bg-gradient-to-r from-green-500 to-green-600 rounded-full mb-4"></div>
+          <p className="text-gray-600 text-center max-w-xl mb-6 text-sm">
             Discover our curated selection of premium African and international products, from beverages and food to spices and fresh produce.
           </p>
         </div>
         
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {products.map((product) => (
               <Card 
                 key={product.id} 
-                className="group relative overflow-hidden border border-gray-200 hover:border-green-500 hover:shadow-lg transition-all duration-200 rounded-xl bg-white"
+                className="group relative overflow-hidden shadow-soft hover:shadow-soft-lg hover:-translate-y-2 transition-all duration-300 rounded-2xl bg-white"
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
               >
@@ -206,7 +206,7 @@ export default function FeaturedProducts() {
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 rounded-full bg-white/80 hover:bg-gray-100 text-gray-500 hover:text-rose-500 backdrop-blur-sm shadow-sm"
+                    className="h-10 w-10 rounded-full bg-white/95 hover:bg-rose-50 text-gray-500 hover:text-rose-500 backdrop-blur-sm shadow-soft hover:shadow-soft-lg transition-all hover:scale-110"
                     onClick={(e) => handleToggleWishlist(product, e)}
                   >
                     <Heart 
@@ -217,30 +217,30 @@ export default function FeaturedProducts() {
                 </div>
 
                 <Link href={`/products/${encodeURIComponent(product.id)}`} className="block">
-                  <div className="relative h-60 bg-white overflow-hidden">
+                  <div className="relative h-60 bg-gradient-to-br from-gray-50 to-white overflow-hidden rounded-t-2xl">
                     {product.category && (
                       <div className="absolute top-3 left-3 z-10">
-                        <Badge variant="secondary" className="bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        <Badge variant="secondary" className="bg-white/95 text-gray-700 hover:bg-gray-100 font-medium rounded-full shadow-soft backdrop-blur-sm">
                           {product.category}
                         </Badge>
                       </div>
                     )}
                     
                     {product.discount && (
-                      <div className="absolute top-12 left-0 z-10 bg-red-500 text-white text-xs font-bold px-3 py-0.5 rounded-r-lg shadow-md">
+                      <div className="absolute top-12 left-0 z-10 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-r-full shadow-soft-lg">
                         -{product.discount}% OFF
                       </div>
                     )}
 
                     {product.originalPrice && (
-                      <div className="absolute top-12 left-0 z-10 bg-red-500 text-white text-xs font-bold px-3 py-0.5 rounded-r-lg shadow-md">
+                      <div className="absolute top-12 left-0 z-10 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-r-full shadow-soft-lg">
                         SAVE £{(product.originalPrice - product.price).toFixed(2)}
                       </div>
                     )}
                     
                     {product.bestseller && (
                       <div className="absolute bottom-3 left-3 z-10">
-                        <Badge className="bg-amber-500 hover:bg-amber-600 text-white border-0 shadow-sm flex items-center gap-1">
+                        <Badge className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white border-0 shadow-soft-lg rounded-full flex items-center gap-1.5 px-3 py-1.5">
                           <TrendingUp className="h-3 w-3" />
                           Bestseller
                         </Badge>
@@ -249,7 +249,7 @@ export default function FeaturedProducts() {
                     
                     {product.new && (
                       <div className="absolute bottom-3 left-3 z-10">
-                        <Badge className="bg-blue-500 hover:bg-blue-600 text-white border-0 shadow-sm">
+                        <Badge className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white border-0 shadow-soft-lg rounded-full px-3 py-1.5">
                           New Arrival
                         </Badge>
                       </div>
@@ -257,7 +257,7 @@ export default function FeaturedProducts() {
                     
                     {product.popular && (
                       <div className="absolute bottom-3 left-3 z-10">
-                        <Badge className="bg-purple-500 hover:bg-purple-600 text-white border-0 shadow-sm flex items-center gap-1">
+                        <Badge className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white border-0 shadow-soft-lg rounded-full flex items-center gap-1.5 px-3 py-1.5">
                           <Award className="h-3 w-3" />
                           Top Rated
                         </Badge>
@@ -281,17 +281,17 @@ export default function FeaturedProducts() {
                     />
                     
                     {/* Hover action buttons */}
-                    <div className={`absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center gap-2 transition-opacity duration-300 ${hoveredProductId === product.id ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-center justify-center gap-3 transition-opacity duration-300 ${hoveredProductId === product.id ? 'opacity-100' : 'opacity-0'}`}>
                       <button 
                         onClick={(e) => handleQuickView(product, e)}
-                        className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-green-500 hover:text-white transition-colors"
+                        className="w-12 h-12 rounded-full bg-white flex items-center justify-center hover:bg-green-600 hover:text-white transition-all shadow-soft-lg hover:scale-110"
                         aria-label="Quick view"
                       >
                         <Eye className="h-5 w-5" />
                       </button>
                       <button 
                         onClick={(e) => handleAddToCart(product, e)}
-                        className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-green-500 hover:text-white transition-colors"
+                        className="w-12 h-12 rounded-full bg-white flex items-center justify-center hover:bg-green-600 hover:text-white transition-all shadow-soft-lg hover:scale-110"
                         aria-label="Add to cart"
                       >
                         <ShoppingCart className="h-5 w-5" />
@@ -300,52 +300,52 @@ export default function FeaturedProducts() {
                   </div>
                 </Link>
                 
-                <CardContent className="pt-4">
+                <CardContent className="pt-5 px-5 pb-4">
                   <Link href={`/products/${encodeURIComponent(product.id)}`} className="block">
-                    <h3 className="font-semibold text-lg truncate group-hover:text-green-600 transition-colors">
+                    <h3 className="font-semibold text-base leading-relaxed line-clamp-2 min-h-[3rem] group-hover:text-green-600 transition-colors">
                       {product.name}
                     </h3>
                   </Link>
-                  <p className="text-gray-600 text-sm mt-1 line-clamp-2 h-10">
+                  <p className="text-gray-500 text-sm mt-2 line-clamp-2 leading-relaxed">
                     {product.description}
                   </p>
                   
                   {/* Rating */}
                   {product.rating && (
-                    <div className="flex items-center mt-2">
-                      <div className="flex">
+                    <div className="flex items-center mt-3 bg-gray-50 rounded-full px-3 py-1.5 w-fit">
+                      <div className="flex gap-0.5">
                         {[...Array(5)].map((_, i) => (
                           <Star 
                             key={i} 
                             className={`h-3.5 w-3.5 ${
-                              i < Math.floor(product.rating) 
+                              i < Math.floor(product.rating ?? 0) 
                                 ? "text-amber-400 fill-amber-400" 
-                                : i < product.rating 
+                                : i < (product.rating ?? 0)
                                   ? "text-amber-400 fill-amber-400" 
                                   : "text-gray-300"
                             }`}
                           />
                         ))}
                       </div>
-                      <span className="text-xs text-gray-600 ml-1">
+                      <span className="text-xs text-gray-600 ml-2 font-medium">
                         ({product.reviewCount})
                       </span>
                     </div>
                   )}
                 </CardContent>
-                <CardFooter className="flex items-center justify-between pt-0">
+                <CardFooter className="flex items-center justify-between px-5 pb-5 pt-0">
                   <div className="flex flex-col">
                     {product.discount ? (
                       <>
-                        <span className="font-bold text-green-600 text-lg">
+                        <span className="font-bold text-green-600 text-xl">
                           {formatCurrency(product.price * (1 - product.discount / 100))}
                         </span>
-                        <span className="text-sm text-gray-500 line-through">
+                        <span className="text-sm text-gray-400 line-through">
                           {formatCurrency(product.price)}
                         </span>
                       </>
                     ) : (
-                      <span className="font-bold text-gray-900 text-lg">
+                      <span className="font-bold text-green-600 text-xl">
                         {formatCurrency(product.price)}
                       </span>
                     )}
@@ -363,7 +363,7 @@ export default function FeaturedProducts() {
         <div className="flex justify-center mt-12">
           <Link 
             href="/shop" 
-            className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg transition-colors"
+            className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-bold px-10 py-4 rounded-full transition-all shadow-soft-lg hover:shadow-soft-xl hover:-translate-y-1 text-lg"
           >
             Browse All Products
             <ChevronRight className="ml-2 h-5 w-5" />
@@ -443,9 +443,9 @@ export default function FeaturedProducts() {
                         <Star 
                           key={i} 
                           className={`h-4 w-4 ${
-                            i < Math.floor(quickViewProduct.rating) 
+                            i < Math.floor(quickViewProduct.rating ?? 0) 
                               ? "text-amber-400 fill-amber-400" 
-                              : i < quickViewProduct.rating 
+                              : i < (quickViewProduct.rating ?? 0)
                                 ? "text-amber-400 fill-amber-400" 
                                 : "text-gray-300"
                           }`}

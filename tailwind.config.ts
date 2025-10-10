@@ -13,7 +13,13 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: {
+        DEFAULT: "1rem",
+        sm: "1.5rem",
+        md: "2rem",
+        lg: "2.5rem",
+        xl: "3rem",
+      },
       screens: {
         "2xl": "1400px",
       },
@@ -66,6 +72,14 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "1rem",
+        "2xl": "1.5rem",
+        "3xl": "2rem",
+      },
+      boxShadow: {
+        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+        'soft-lg': '0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 15px 35px -5px rgba(0, 0, 0, 0.06)',
+        'soft-xl': '0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.08)',
       },
       keyframes: {
         "accordion-down": {

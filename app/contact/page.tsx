@@ -57,7 +57,7 @@ export default function ContactPage() {
     <div className="min-h-screen py-12 bg-muted/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+          <h1 className="text-4xl font-bold mb-4">Contact Grova</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
@@ -130,8 +130,8 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6 text-green-600 mt-1" />
                   <div>
                     <h3 className="font-semibold">Email</h3>
-                    <p className="text-muted-foreground">info@heritageofskegness.co.uk</p>
-                    <p className="text-muted-foreground">support@heritageofskegness.co.uk</p>
+                    <p className="text-muted-foreground">info@grova.co.uk</p>
+                    <p className="text-muted-foreground">support@grova.co.uk</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">

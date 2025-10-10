@@ -23,7 +23,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    --radius: 1rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -133,27 +133,27 @@
   }
   
   .product-card {
-    @apply bg-white rounded-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/50 hover:border-green-500/30;
+    @apply bg-white rounded-2xl overflow-hidden border-0 transition-all duration-300 hover:shadow-soft-lg hover:-translate-y-1 shadow-soft;
   }
   
   .product-card .product-image {
-    @apply aspect-square object-cover w-full;
+    @apply aspect-square object-cover w-full rounded-t-2xl;
   }
   
   .product-card .product-info {
-    @apply p-4;
+    @apply p-5;
   }
   
   .product-card .product-title {
-    @apply text-gray-900 font-medium line-clamp-2 min-h-[2.5rem];
+    @apply text-gray-900 font-medium line-clamp-2 min-h-[3rem] text-base leading-relaxed;
   }
   
   .product-card .product-category {
-    @apply text-xs text-gray-500 uppercase tracking-wider mb-2;
+    @apply text-xs text-gray-500 uppercase tracking-wider mb-2 font-medium;
   }
   
   .product-card .product-price {
-    @apply text-lg font-bold text-gray-900 mt-2;
+    @apply text-xl font-bold text-green-600 mt-3;
   }
   
   .product-card .original-price {
@@ -161,19 +161,19 @@
   }
   
   .product-card .product-actions {
-    @apply flex items-center justify-between mt-4;
+    @apply flex items-center justify-between mt-5 gap-2;
   }
   
   .btn-primary {
-    @apply bg-green-600 hover:bg-green-700 text-white font-medium shadow transition-all duration-300 ease-in-out;
+    @apply bg-green-600 hover:bg-green-700 text-white font-medium shadow-soft hover:shadow-soft-lg rounded-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5;
   }
   
   .section-heading {
-    @apply text-3xl sm:text-4xl font-semibold text-white mb-8 font-poppins;
+    @apply text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-10 font-poppins;
   }
   
   .section-padding {
-    @apply py-12 sm:py-16 md:py-20;
+    @apply py-16 sm:py-20 md:py-24;
   }
 }
 

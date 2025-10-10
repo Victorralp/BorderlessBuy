@@ -46,7 +46,7 @@ export default function Newsletter() {
   }
 
   return (
-    <section id="newsletter-section" className="py-20 mb-20 bg-white text-gray-800 relative overflow-hidden border-t border-gray-200">
+    <section id="newsletter-section" className="py-16 mb-12 bg-gradient-to-br from-green-50 to-white relative overflow-hidden border-t border-green-100 shadow-soft">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-green-200 animate-pulse-slow"></div>
@@ -56,60 +56,60 @@ export default function Newsletter() {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center bg-green-50 rounded-full px-3 py-1 text-sm border border-green-200 backdrop-blur-sm mb-4 text-green-700">
-              <Mail className="h-4 w-4 mr-2" />
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center bg-green-50 rounded-full px-3 py-1 text-xs border border-green-200 backdrop-blur-sm mb-3 text-green-700">
+              <Mail className="h-3 w-3 mr-1" />
               <span>Join 5,000+ subscribers</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 leading-tight max-w-3xl mx-auto text-gray-800">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight max-w-2xl mx-auto text-gray-900">
               Stay Updated with Heritage of Skegness
             </h2>
-            <div className="w-24 h-1 bg-green-500 rounded mx-auto mb-4"></div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <div className="w-20 h-1 bg-green-600 rounded mx-auto mb-4"></div>
+            <p className="text-gray-700 max-w-xl mx-auto text-base font-medium">
               Get notified about new products, special offers and authentic African recipes delivered straight to your inbox.
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-12">
+          <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-8">
             {/* Left content */}
             <div className="md:w-5/12 text-center md:text-left">
               <div className="h-full flex flex-col justify-center">
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Why Subscribe?</h3>
+                <h3 className="text-xl font-bold mb-4 text-gray-900">Why Subscribe?</h3>
                 
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                   viewport={{ once: true }}
-                  className="space-y-5"
+                  className="space-y-3"
                 >
-                  <div className="flex items-center gap-4 bg-green-50 p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center gap-3 bg-white p-4 rounded-2xl shadow-soft border border-green-100">
                     <div className="bg-green-100 p-3 rounded-full">
-                      <Gift className="h-6 w-6 text-green-600" />
+                      <Gift className="h-5 w-5 text-green-700" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800">Exclusive Offers</h4>
-                      <p className="text-sm text-gray-600">Special discounts only for subscribers</p>
+                      <h4 className="font-semibold text-gray-900 text-sm">Exclusive Offers</h4>
+                      <p className="text-xs text-gray-700">Special discounts only for subscribers</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-4 bg-green-50 p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center gap-3 bg-white p-4 rounded-2xl shadow-soft border border-green-100">
                     <div className="bg-green-100 p-3 rounded-full">
-                      <Bell className="h-6 w-6 text-green-600" />
+                      <Bell className="h-5 w-5 text-green-700" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800">New Arrivals</h4>
-                      <p className="text-sm text-gray-600">Be first to know about new products</p>
+                      <h4 className="font-medium text-gray-800 text-sm">New Arrivals</h4>
+                      <p className="text-xs text-gray-600">Be first to know about new products</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-4 bg-green-50 p-4 rounded-lg shadow-sm">
-                    <div className="bg-green-100 p-3 rounded-full">
-                      <Tag className="h-6 w-6 text-green-600" />
+                  <div className="flex items-center gap-3 bg-green-50 p-3 rounded-lg">
+                    <div className="bg-green-100 p-2 rounded-full">
+                      <Tag className="h-4 w-4 text-green-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800">Seasonal Promotions</h4>
-                      <p className="text-sm text-gray-600">Holiday specials and limited-time offers</p>
+                      <h4 className="font-medium text-gray-800 text-sm">Seasonal Promotions</h4>
+                      <p className="text-xs text-gray-600">Holiday specials and limited-time offers</p>
                     </div>
                   </div>
                 </motion.div>
@@ -123,14 +123,14 @@ export default function Newsletter() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
-                className="bg-white p-8 rounded-2xl shadow-md border border-gray-200"
+                className="bg-white p-6 rounded-xl shadow-md border border-gray-200"
               >
-                <div className="text-center mb-6">
-                  <div className="bg-green-100 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Mail className="h-7 w-7 text-green-600" />
+                <div className="text-center mb-4">
+                  <div className="bg-green-100 h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Mail className="h-5 w-5 text-green-600" />
                   </div>
-                  <h3 className="text-gray-800 text-2xl font-bold">Get Heritage of Skegness Updates</h3>
-                  <p className="text-gray-600 mt-2">Sign up for our newsletter and never miss out</p>
+                  <h3 className="text-gray-800 text-xl font-bold">Get Heritage of Skegness Updates</h3>
+                  <p className="text-gray-600 mt-1 text-sm">Sign up for our newsletter and never miss out</p>
                 </div>
                 
                 {isSubscribed ? (

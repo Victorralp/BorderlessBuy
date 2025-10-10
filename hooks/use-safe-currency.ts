@@ -1,31 +1,35 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useCurrency } from "@/components/currency-provider"
+import { useState, useEffect } from 'react'
 
-/**
- * A safer version of useCurrency that handles SSR hydration mismatches
- * by returning placeholder values during server rendering and initial hydration
- */
 export function useSafeCurrency() {
-  const currencyContext = useCurrency()
   const [isClient, setIsClient] = useState(false)
-  
-  // After hydration, set isClient to true
+
   useEffect(() => {
     setIsClient(true)
   }, [])
-  
-  // During SSR and initial hydration, return placeholder values
-  if (!isClient) {
-    return {
-      ...currencyContext,
-      // Return a function that always returns the same value for server rendering
-      formatPrice: () => "£0.00",
-      formatCurrency: () => "£0.00",
+
+  const formatCurrency = (amount: number, currency: string = 'GBP') => {
+    if (!isClient) {
+      // Return a simple format for SSR
+      return `£${amount.toFixed(2)}`
+    }
+
+    try {
+      return new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(amount)
+    } catch (error) {
+      // Fallback if Intl.NumberFormat fails
+      return `£${amount.toFixed(2)}`
     }
   }
-  
-  // After hydration, return the actual context
-  return currencyContext
-} 
+
+  return {
+    formatCurrency,
+    isClient
+  }
+}

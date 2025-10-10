@@ -6,14 +6,14 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, User, Mail, ShoppingBag, ArrowRight } from "lucide-react"
 
-// Updated slides with better images and content
+// Updated slides with local images and content
 const slides = [
   {
     id: 1,
-    title: "Premium African & International Foods",
+    title: "Grova - Your everyday grocery shop",
     subtitle: "Discover authentic flavors from around the world",
     description: "Experience the tastes of home with our carefully curated selection of international groceries",
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2940&auto=format&fit=crop",
+    image: "/product_images/beverages/coke-50cl-250x250.jpg",
     cta: "Shop Now",
     ctaLink: "/shop"
   },
@@ -22,18 +22,18 @@ const slides = [
     title: "Fresh Beverages from Home",
     subtitle: "Authentic drinks from your homeland",
     description: "Quench your thirst with our wide range of international beverages and refreshments",
-    image: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?q=80&w=2970&auto=format&fit=crop",
+    image: "/product_images/beverages/Fanta-PET-Bottles-50cl.jpg",
     cta: "View Collection",
     ctaLink: "/shop?category=beverages"
   },
   {
     id: 3,
-    title: "Bulk Orders Available",
-    subtitle: "Perfect for events, restaurants & catering",
-    description: "Get volume discounts on bulk purchases with our special wholesale options",
-    image: "https://images.unsplash.com/photo-1467453678174-768ec283a940?q=80&w=2844&auto=format&fit=crop",
-    cta: "Bulk Orders",
-    ctaLink: "/bulk-order"
+    title: "Traditional African Foods",
+    subtitle: "Authentic ingredients for your favorite dishes",
+    description: "Get premium quality African foods and spices delivered fresh to your door",
+    image: "/product_images/rice/Aani-Basmatic-rice-10kg-4-250x250.jpg",
+    cta: "Shop Foods",
+    ctaLink: "/shop?category=food"
   },
 ]
 
@@ -66,8 +66,12 @@ export default function Hero() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }, 7000) // Slightly longer duration for a more professional feel
+      setCurrentSlide((prev) => {
+        const nextSlide = (prev + 1) % slides.length
+        console.log(`Hero slider: Moving from slide ${prev} to slide ${nextSlide}`)
+        return nextSlide
+      })
+    }, 5000) // Reduced to 5 seconds for better visibility
     return () => clearInterval(timer)
   }, [])
 
@@ -96,7 +100,7 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative h-[60vh] sm:h-[70vh] md:h-[85vh] overflow-hidden bg-white border-b border-gray-200 mb-12"
+      className="relative h-[70vh] sm:h-[80vh] md:h-[90vh] lg:h-[95vh] overflow-hidden bg-white border-b border-gray-200 mb-8"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -105,7 +109,7 @@ export default function Hero() {
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
+          className={`absolute inset-0 transition-opacity duration-1500 ease-in-out bg-gradient-to-br from-green-600 to-green-800 ${
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -127,6 +131,12 @@ export default function Hero() {
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAI2QTlcpAAAAABJRU5ErkJggg=="
             className="object-cover transition-transform duration-10000 ease-out"
             onLoad={() => handleImageLoad(index)}
+            onError={(e) => {
+              console.error(`Failed to load hero image: ${slide.image}`);
+              const imgElement = e.currentTarget as HTMLImageElement;
+              imgElement.src = "/placeholder.jpg";
+              imgElement.onerror = null;
+            }}
             style={{ 
               transform: index === currentSlide ? "scale(1.05)" : "scale(1)",
               transitionDuration: '15000ms'
@@ -140,7 +150,12 @@ export default function Hero() {
                 index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
               }`}
             >
-              <span className="inline-block px-4 py-1 bg-green-600 text-white text-xs md:text-sm rounded-full mb-4 shadow-lg">Limited Time Offers</span>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-block px-5 py-2 bg-green-600 text-white text-xs md:text-sm font-semibold rounded-full shadow-soft-lg">✨ Limited Time Offers</span>
+                <span className="inline-block px-4 py-2 bg-white/20 text-white text-xs font-medium rounded-full backdrop-blur-sm border border-white/30">
+                  {currentSlide + 1} / {slides.length}
+                </span>
+              </div>
               
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2 sm:mb-4 drop-shadow-lg text-white">
                 {slide.title}
@@ -154,14 +169,14 @@ export default function Hero() {
                 {slide.description}
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center sm:items-start md:items-center justify-center md:justify-start gap-3 sm:gap-4 mt-6">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start md:items-center justify-center md:justify-start gap-4 mt-8">
                 <Button 
                   size="lg" 
                   asChild
-                  className="bg-green-600 hover:bg-green-700 text-white px-8 sm:px-10 py-7 text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transition-all rounded-full group relative overflow-hidden"
+                  className="bg-green-600 hover:bg-green-700 text-white px-10 sm:px-12 py-6 text-base sm:text-lg font-bold shadow-soft-xl hover:shadow-soft-xl hover:-translate-y-1 transition-all rounded-full group relative overflow-hidden"
                 >
                   <Link href={slide.ctaLink}>
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-green-500/20 to-transparent transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-green-500/30 to-transparent transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
                     <ShoppingBag className="mr-2 h-5 w-5 group-hover:animate-bounce" />
                     {slide.cta}
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -171,11 +186,11 @@ export default function Hero() {
                   size="lg" 
                   variant="outline"
                   onClick={scrollToNewsletter}
-                  className="bg-white/20 text-white border-white/30 hover:bg-white/40 hover:border-white/50 px-8 sm:px-10 py-7 text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transition-all backdrop-blur-sm rounded-full group relative overflow-hidden"
+                  className="bg-white text-gray-900 border-0 hover:bg-white/95 px-10 sm:px-12 py-6 text-base sm:text-lg font-bold shadow-soft-xl hover:shadow-soft-xl hover:-translate-y-1 transition-all rounded-full group relative overflow-hidden"
                 >
-                  <span className="absolute inset-0 w-full h-full bg-white/10 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
-                  <Mail className="mr-2 h-5 w-5 group-hover:animate-pulse" />
-                  Subscribe to Updates
+                  <span className="absolute inset-0 w-full h-full bg-gray-100/50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+                  <Mail className="mr-2 h-5 w-5 group-hover:animate-pulse text-green-600" />
+                  Subscribe
                 </Button>
               </div>
             </div>
@@ -187,33 +202,42 @@ export default function Hero() {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:bg-black/20 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md backdrop-blur-sm bg-black/30 hidden sm:flex"
-        onClick={prevSlide}
+        className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-white hover:bg-white hover:text-green-600 h-14 w-14 rounded-full shadow-soft-lg hover:shadow-soft-xl backdrop-blur-md bg-white/20 hover:scale-110 border-2 border-white/30 flex items-center justify-center transition-all"
+        onClick={() => {
+          console.log('Hero slider: Previous button clicked')
+          prevSlide()
+        }}
       >
-        <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7" />
+        <ChevronLeft className="h-7 w-7" />
         <span className="sr-only">Previous</span>
       </Button>
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:bg-black/20 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md backdrop-blur-sm bg-black/30 hidden sm:flex"
-        onClick={nextSlide}
+        className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 text-white hover:bg-white hover:text-green-600 h-14 w-14 rounded-full shadow-soft-lg hover:shadow-soft-xl backdrop-blur-md bg-white/20 hover:scale-110 border-2 border-white/30 flex items-center justify-center transition-all"
+        onClick={() => {
+          console.log('Hero slider: Next button clicked')
+          nextSlide()
+        }}
       >
-        <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7" />
+        <ChevronRight className="h-7 w-7" />
         <span className="sr-only">Next</span>
       </Button>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-[50]">
+      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3 z-[50] bg-white/20 backdrop-blur-md rounded-full px-4 py-3 border border-white/30 shadow-soft-lg">
         {slides.map((_, index) => (
           <button
             key={index}
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+            className={`rounded-full transition-all duration-300 ${
               index === currentSlide 
-                ? "bg-green-500 w-8 sm:w-10" 
-                : "bg-white/50 hover:bg-white/80"
+                ? "bg-white w-10 sm:w-14 h-3 shadow-soft" 
+                : "bg-white/60 hover:bg-white/90 w-3 h-3"
             }`}
-            onClick={() => setCurrentSlide(index)}
+            onClick={() => {
+              console.log(`Hero slider: Manual navigation to slide ${index}`)
+              setCurrentSlide(index)
+            }}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

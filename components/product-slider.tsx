@@ -16,166 +16,180 @@ interface SliderItem {
 
 export default function ProductSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isLoading, setIsLoading] = useState<boolean[]>([true, true, true])
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
+  const [mounted, setMounted] = useState(false)
   
   const sliderItems: SliderItem[] = [
     {
       id: "slide1",
-      title: "African Beverages",
-      description: "Discover authentic drinks from across Africa",
-      image: "/product_images/beverages/Fanta-PET-Bottles-50cl.jpg",
+      title: "African Beverages Collection",
+      description: "Discover authentic drinks from across Africa - Fanta, Coca-Cola, and traditional beverages",
+      image: "/product_images/coke-50cl-250x250.jpg",
       link: "/shop?category=beverages"
     },
     {
       id: "slide2",
-      title: "Traditional Foods",
-      description: "Experience the rich flavors of African cuisine",
-      image: "/product_images/food/bread-250x250.png",
-      link: "/shop?category=food"
+      title: "Premium Rice & Grains",
+      description: "High-quality Basmati rice and traditional grains for your authentic meals",
+      image: "/product_images/Unnamed_Product_c4e3aaee.jpg",
+      link: "/shop?category=rice"
     },
     {
       id: "slide3",
-      title: "Premium Spices",
-      description: "Enhance your dishes with authentic flavors",
-      image: "/product_images/spices/Bawa-pepper-250x250.jpg",
+      title: "Authentic Spices & Seasonings",
+      description: "Enhance your dishes with our premium collection of African spices and seasonings",
+      image: "/product_images/Team-drink-250x250.jpg",
       link: "/shop?category=spices"
     }
   ]
+
+  // Ensure component is mounted
+  useEffect(() => {
+    setMounted(true)
+    console.log('ProductSlider: Component mounted and rendered')
+  }, [])
   
-  // Function to handle touch swipe
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX)
-  }
-  
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX)
-  }
-  
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 50) {
-      // swipe left
-      nextSlide()
-    }
-    
-    if (touchStart - touchEnd < -50) {
-      // swipe right
-      prevSlide()
-    }
-  }
-  
+  // Navigation functions
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % sliderItems.length)
+    const next = (currentSlide + 1) % sliderItems.length
+    console.log(`ProductSlider: Moving to slide ${next}`)
+    setCurrentSlide(next)
   }
-  
+
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + sliderItems.length) % sliderItems.length)
+    const prev = (currentSlide - 1 + sliderItems.length) % sliderItems.length
+    console.log(`ProductSlider: Moving to slide ${prev}`)
+    setCurrentSlide(prev)
   }
-  
-  const handleImageLoad = (index: number) => {
-    setIsLoading((prev) => {
-      const newState = [...prev]
-      newState[index] = false
-      return newState
-    })
-  }
-  
+
   // Auto-advance slides every 5 seconds
   useEffect(() => {
+    if (!mounted) return
+    
     const timer = setInterval(() => {
       nextSlide()
     }, 5000)
     
     return () => clearInterval(timer)
-  }, [])
+  }, [mounted, currentSlide])
   
-  return (
-    <section 
-      className="relative w-full h-[500px] sm:h-[550px] md:h-[600px] overflow-hidden bg-white border-y border-gray-200 mt-4 mb-10 shadow-md"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div 
-        className="flex transition-transform duration-500 ease-in-out h-full"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-      >
-        {sliderItems.map((item, index) => (
-          <div key={item.id} className="min-w-full h-full relative">
-            {/* Loading indicator */}
-            {isLoading[index] && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                <div className="w-12 h-12 border-4 border-gray-300 border-t-green-600 rounded-full animate-spin"></div>
-              </div>
-            )}
-            
-            <Image
-              src={item.image}
-              alt={item.title}
-              fill
-              className="object-cover object-center"
-              sizes="100vw"
-              quality={90}
-              priority={index === 0}
-              onLoad={() => handleImageLoad(index)}
-              onError={(e) => {
-                console.error(`Failed to load image: ${item.image}`);
-                const imgElement = e.currentTarget as HTMLImageElement;
-                imgElement.src = "/product_images/unknown-product.jpg";
-                imgElement.onerror = null;
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 flex items-center justify-start">
-              <div className="text-left text-white p-8 md:p-12 max-w-xl">
-                <h2 className="text-3xl md:text-5xl font-bold mb-3 md:mb-4 drop-shadow-md">{item.title}</h2>
-                <p className="mb-8 text-base md:text-xl text-white/90 max-w-lg drop-shadow-sm">{item.description}</p>
-                <Button 
-                  asChild 
-                  size="lg" 
-                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-base md:text-lg font-medium shadow-lg hover:shadow-xl transition-all rounded-md group relative overflow-hidden"
-                >
-                  <Link href={item.link}>
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-green-500/20 to-transparent transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
-                    {item.link.includes("bulk") ? "Bulk Orders" : "Shop Now"}
-                    <ArrowRight className="ml-2 h-5 w-5 inline-block group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
+  if (!mounted) {
+    return (
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
+            <div className="h-96 bg-gray-200 rounded-xl animate-pulse"></div>
           </div>
-        ))}
-      </div>
-      
-      {/* Navigation buttons */}
-      <button 
-        onClick={prevSlide}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white hover:bg-opacity-90 rounded-full p-3 backdrop-blur-sm text-gray-800 shadow-md border border-gray-200 z-10"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </button>
-      <button 
-        onClick={nextSlide}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white hover:bg-opacity-90 rounded-full p-3 backdrop-blur-sm text-gray-800 shadow-md border border-gray-200 z-10"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="h-6 w-6" />
-      </button>
-      
-      {/* Indicator dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
-        {sliderItems.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              currentSlide === index ? "bg-green-500 w-8" : "bg-white/60 hover:bg-white/80"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section className="py-16 bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-soft my-12">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center bg-green-100 text-green-700 px-5 py-2 rounded-full text-sm font-semibold mb-4 shadow-soft">
+            <span>Featured Categories</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-green-500 to-green-600 rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-700 max-w-xl mx-auto text-base font-medium">
+            Explore our carefully curated categories of authentic African and international products
+          </p>
+        </div>
+        
+        {/* Product Slider */}
+        <div className="relative w-full h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-hidden rounded-xl shadow-lg border-2 border-green-200">
+          {/* Slides Container */}
+          <div 
+            className="flex transition-transform duration-500 ease-in-out h-full"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {sliderItems.map((item, index) => (
+              <div key={item.id} className="min-w-full h-full relative bg-gradient-to-br from-green-100 to-green-200 flex">
+                {/* Left Content */}
+                <div className="w-1/2 flex items-center justify-center p-8 md:p-12 bg-gradient-to-r from-green-600 to-green-700">
+                  <div className="text-left text-white max-w-lg">
+                    <div className="inline-block px-4 py-2 bg-white/20 text-white text-sm rounded-full mb-4 shadow-lg backdrop-blur-sm">
+                      Category {index + 1} of {sliderItems.length}
+                    </div>
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 drop-shadow-lg leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-white/90 mb-6 text-base md:text-lg leading-relaxed drop-shadow-md">
+                      {item.description}
+                    </p>
+                    <Button asChild size="lg" className="bg-white text-green-700 hover:bg-gray-100 px-8 py-3 text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+                      <Link href={item.link}>
+                        Shop This Category <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+                
+                {/* Right Image */}
+                <div className="w-1/2 relative bg-white flex items-center justify-center p-8">
+                  <div className="relative w-full h-full max-w-md max-h-md">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-contain drop-shadow-2xl"
+                      sizes="50vw"
+                      priority={index === 0}
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${item.image}`)
+                        const target = e.target as HTMLImageElement
+                        target.src = "/product_images/unknown-product.jpg"
+                        target.onerror = null
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Navigation buttons */}
+          <button 
+            onClick={prevSlide}
+            className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-4 shadow-xl z-20 transition-all hover:scale-110"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          <button 
+            onClick={nextSlide}
+            className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-4 shadow-xl z-20 transition-all hover:scale-110"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
+          
+          {/* Indicator dots */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
+            {sliderItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-4 h-4 rounded-full transition-all duration-300 border-2 border-white/50 shadow-lg ${
+                  currentSlide === index ? "bg-green-600 w-10 border-green-600" : "bg-white/70 hover:bg-white hover:scale-110"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+        
+        {/* Slide counter */}
+        <div className="text-center mt-6">
+          <span className="text-base font-medium text-gray-600 bg-white px-4 py-2 rounded-full shadow-sm">
+            {currentSlide + 1} of {sliderItems.length} categories
+          </span>
+        </div>
       </div>
     </section>
   )
-} 
+}

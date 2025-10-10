@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Trash2, ShoppingCart, Heart, ArrowLeft } from "lucide-react"
+import { Trash2, ShoppingCart, Heart, ArrowLeft, ShoppingBag } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useCurrency } from "@/components/currency-provider"
@@ -22,7 +22,7 @@ import { useCart } from "@/components/cart-provider"
 import { useWishlist } from "@/hooks/use-wishlist"
 
 export default function WishlistPage() {
-  const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist()
+  const { wishlist, removeFromWishlist, clearWishlist } = useWishlist()
   const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
   const { formatPrice } = useCurrency()
@@ -37,7 +37,7 @@ export default function WishlistPage() {
     return () => clearTimeout(timer)
   }, [])
 
-  const handleAddToCart = (product: typeof wishlistItems[0]) => {
+  const handleAddToCart = (product: typeof wishlist[0]) => {
     addToCart({
       productId: product.id,
       name: product.name,
@@ -53,7 +53,8 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-12">
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -76,7 +77,7 @@ export default function WishlistPage() {
           <p className="text-muted-foreground">Items you've saved for later</p>
         </div>
         <div className="flex gap-3 mt-4 md:mt-0">
-          {wishlistItems.length > 0 && (
+          {wishlist && wishlist.length > 0 && (
             <Button 
               variant="outline" 
               onClick={clearWishlist}
@@ -111,11 +112,11 @@ export default function WishlistPage() {
             </Card>
           ))}
         </div>
-      ) : wishlistItems.length > 0 ? (
+      ) : wishlist && wishlist.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {wishlistItems.map((product) => (
-            <Card key={product.id} className="overflow-hidden">
-              <div className="relative h-64 w-full bg-muted">
+          {wishlist.map((product) => (
+            <Card key={product.id} className="overflow-hidden shadow-soft hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300 bg-white rounded-2xl border-0">
+              <div className="relative h-64 w-full bg-gradient-to-br from-gray-50 to-white rounded-t-2xl">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -125,21 +126,21 @@ export default function WishlistPage() {
               </div>
               <CardContent className="p-6">
                 <Link href={`/products/${product.id}`} className="block">
-                  <h3 className="font-semibold text-lg mb-1 hover:text-green-600 transition-colors">
+                  <h3 className="font-semibold text-lg mb-1 hover:text-green-600 transition-colors text-gray-900">
                     {product.name}
                   </h3>
                 </Link>
-                <p className="text-sm text-muted-foreground mb-4">{product.category}</p>
+                <p className="text-sm text-gray-600 mb-4 font-medium">{product.category}</p>
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-baseline gap-2">
-                    <span className="font-semibold text-green-600">{formatPrice(product.price)}</span>
+                    <span className="font-bold text-xl text-green-600">{formatPrice(product.price)}</span>
                     {product.originalPrice && (
-                      <span className="text-sm text-muted-foreground line-through">
+                      <span className="text-sm text-gray-400 line-through">
                         {formatPrice(product.originalPrice)}
                       </span>
                     )}
                   </div>
-                  <span className={`text-sm ${product.inStock ? 'text-green-600' : 'text-red-600'} font-medium`}>
+                  <span className={`text-sm px-3 py-1 rounded-full font-semibold ${product.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                     {product.inStock ? 'In Stock' : 'Out of Stock'}
                   </span>
                 </div>
@@ -147,7 +148,7 @@ export default function WishlistPage() {
                   <Button
                     onClick={() => handleAddToCart(product)}
                     disabled={product.inStock === false}
-                    className="flex-1"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-soft hover:shadow-soft-lg font-semibold"
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" />
                     Add to Cart
@@ -155,6 +156,7 @@ export default function WishlistPage() {
                   <Button
                     variant="outline"
                     onClick={() => removeFromWishlist(product.id)}
+                    className="border-gray-300 hover:bg-red-50 hover:text-red-600 hover:border-red-300 rounded-xl"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -164,23 +166,25 @@ export default function WishlistPage() {
           ))}
         </div>
       ) : (
-        <div className="py-12">
-          <Alert className="max-w-lg mx-auto">
-            <div className="flex items-center">
-              <Heart className="h-5 w-5 mr-2 text-muted-foreground" />
-              <AlertTitle>Your wishlist is empty</AlertTitle>
+        <div className="bg-white rounded-3xl shadow-soft-lg p-12 text-center">
+          <div className="max-w-md mx-auto">
+            <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Heart className="h-10 w-10 text-rose-500" />
             </div>
-            <AlertDescription className="mt-3">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Your wishlist is empty</h2>
+            <p className="text-gray-600 mb-6 leading-relaxed">
               Browse our products and click the heart icon to add items to your wishlist.
-            </AlertDescription>
-            <div className="mt-6">
-              <Button asChild>
-                <Link href="/shop">Browse Products</Link>
+            </p>
+            <Link href="/shop">
+              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 rounded-full text-lg font-bold shadow-soft-lg hover:shadow-soft-xl hover:-translate-y-1 transition-all">
+                <ShoppingBag className="h-5 w-5 mr-2" />
+                Browse Products
               </Button>
-            </div>
-          </Alert>
+            </Link>
+          </div>
         </div>
       )}
+      </div>
     </div>
   )
 } 

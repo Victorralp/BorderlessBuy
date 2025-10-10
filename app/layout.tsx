@@ -14,6 +14,9 @@ import { CountryProvider } from "@/components/country-provider"
 import { Button } from "@/components/ui/button"
 import { User } from "lucide-react"
 import Link from "next/link"
+import StructuredData from "@/components/structured-data"
+import BreadcrumbNav from "@/components/breadcrumb-nav"
+import QuickActions from "@/components/quick-actions"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -27,12 +30,12 @@ const poppins = Poppins({
 })
 
 // Site name should be consistent across all environments
-const SITE_NAME = "Heritage of Skegness";
+const SITE_NAME = "Grova";
 
 export const metadata: Metadata = {
-  title: `${SITE_NAME} - Premium African & International Foods`,
+  title: `${SITE_NAME} - Your everyday grocery shop`,
   description:
-    "Discover authentic African and international foods, spices, and beverages. Fresh produce, quality ingredients, and traditional flavors delivered to your door.",
+    "Your everyday grocery shop. Discover authentic African and international foods, spices, and beverages. Fresh produce, quality ingredients, and traditional flavors delivered to your door.",
   keywords: "African food, international cuisine, spices, beverages, fresh produce, online grocery, Heritage of Skegness",
   authors: [{ name: SITE_NAME }],
   metadataBase: new URL("https://heritageofskegness.co.uk"),
@@ -104,34 +107,26 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${inter.className} min-h-screen bg-white text-gray-800`}>
+      <body className={`${inter.className} min-h-screen bg-gray-50 text-gray-900`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <CountryProvider>
             <CurrencyProvider>
               <CartProvider>
                 <AuthProvider>
                   <Header />
+                  <BreadcrumbNav />
                   <main className="min-h-screen pt-20 sm:pt-24 md:pt-28">
                     {children}
                   </main>
                   <Footer />
                   <Toaster />
-                  <div className="fixed bottom-4 right-4 z-50 hidden md:block">
-                    <Button 
-                      asChild 
-                      className="bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm px-3 sm:px-4 h-9 sm:h-10 rounded-full shadow-lg"
-                    >
-                      <a href="https://wa.me/2348012345678" target="_blank" rel="noopener noreferrer" suppressHydrationWarning>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2 inline-block">
-                          <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
-                          <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Z" />
-                          <path d="M14 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Z" />
-                          <path d="M12 17a5 5 0 0 1-5-5" />
-                        </svg>
-                        <span>WhatsApp</span>
-                      </a>
-                    </Button>
-                  </div>
+                  
+                  {/* Quick Actions Floating Button */}
+                  <QuickActions />
+                  
+                  {/* Structured Data for SEO */}
+                  <StructuredData type="website" data={{}} />
+                  <StructuredData type="organization" data={{}} />
                 </AuthProvider>
               </CartProvider>
             </CurrencyProvider>

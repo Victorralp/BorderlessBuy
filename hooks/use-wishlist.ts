@@ -1,10 +1,8 @@
 "use client"
 
-import { useCallback, useEffect } from "react"
-import { useLocalStorage } from "@/hooks/use-local-storage"
-import { useToast } from "@/hooks/use-toast"
+import { useState, useEffect } from 'react'
+import { useToast } from '@/components/ui/use-toast'
 
-// Define a type for wishlist items
 export interface WishlistItem {
   id: string
   name: string
@@ -12,96 +10,100 @@ export interface WishlistItem {
   originalPrice?: number
   image: string
   category?: string
-  inStock?: boolean
+  inStock: boolean
 }
 
-export function useWishlist() {
-  const { toast } = useToast()
-  const [items, setItems] = useLocalStorage<WishlistItem[]>("wishlist-items", [])
+const WISHLIST_STORAGE_KEY = 'heritage-wishlist'
 
-  // Add item to wishlist
-  const addToWishlist = useCallback((item: WishlistItem) => {
-    setItems((currentItems) => {
-      // Check if item already exists
-      if (currentItems.some((existingItem) => existingItem.id === item.id)) {
-        return currentItems
+export function useWishlist() {
+  const [wishlist, setWishlist] = useState<WishlistItem[]>([])
+  const [isClient, setIsClient] = useState(false)
+  const { toast } = useToast()
+
+  // Load wishlist from localStorage on client side
+  useEffect(() => {
+    setIsClient(true)
+    try {
+      const savedWishlist = localStorage.getItem(WISHLIST_STORAGE_KEY)
+      if (savedWishlist) {
+        setWishlist(JSON.parse(savedWishlist))
+      }
+    } catch (error) {
+      console.error('Error loading wishlist from localStorage:', error)
+    }
+  }, [])
+
+  // Save wishlist to localStorage whenever it changes
+  useEffect(() => {
+    if (isClient) {
+      try {
+        localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(wishlist))
+      } catch (error) {
+        console.error('Error saving wishlist to localStorage:', error)
+      }
+    }
+  }, [wishlist, isClient])
+
+  const addToWishlist = (item: WishlistItem) => {
+    setWishlist(prev => {
+      const exists = prev.find(wishlistItem => wishlistItem.id === item.id)
+      if (exists) {
+        return prev
       }
       
-      // Show toast notification
       toast({
-        title: "Added to Wishlist",
-        description: `${item.name} has been added to your wishlist`,
+        title: "Added to wishlist",
+        description: `${item.name} has been added to your wishlist.`,
       })
       
-      return [...currentItems, item]
+      return [...prev, item]
     })
-  }, [setItems, toast])
+  }
 
-  // Remove item from wishlist
-  const removeFromWishlist = useCallback((id: string) => {
-    setItems((currentItems) => {
-      const itemToRemove = currentItems.find(item => item.id === id)
-      const newItems = currentItems.filter(item => item.id !== id)
-      
-      // Show toast notification if an item was actually removed
-      if (itemToRemove) {
+  const removeFromWishlist = (itemId: string) => {
+    setWishlist(prev => {
+      const item = prev.find(wishlistItem => wishlistItem.id === itemId)
+      if (item) {
         toast({
-          title: "Removed from Wishlist",
-          description: `${itemToRemove.name} has been removed from your wishlist`,
+          title: "Removed from wishlist",
+          description: `${item.name} has been removed from your wishlist.`,
         })
       }
-      
-      return newItems
+      return prev.filter(wishlistItem => wishlistItem.id !== itemId)
     })
-  }, [setItems, toast])
+  }
 
-  // Toggle item in wishlist (add if not present, remove if present)
-  const toggleWishlist = useCallback((item: WishlistItem) => {
-    setItems((currentItems) => {
-      const exists = currentItems.some((existingItem) => existingItem.id === item.id)
-      
-      if (exists) {
-        // Show toast notification for removal
-        toast({
-          title: "Removed from Wishlist",
-          description: `${item.name} has been removed from your wishlist`,
-        })
-        
-        return currentItems.filter((existingItem) => existingItem.id !== item.id)
-      } else {
-        // Show toast notification for addition
-        toast({
-          title: "Added to Wishlist",
-          description: `${item.name} has been added to your wishlist`,
-        })
-        
-        return [...currentItems, item]
-      }
-    })
-  }, [setItems, toast])
+  const toggleWishlist = (item: WishlistItem) => {
+    const exists = wishlist.find(wishlistItem => wishlistItem.id === item.id)
+    if (exists) {
+      removeFromWishlist(item.id)
+    } else {
+      addToWishlist(item)
+    }
+  }
 
-  // Check if item is in wishlist
-  const isInWishlist = useCallback((id: string) => {
-    return items.some((item) => item.id === id)
-  }, [items])
+  const isInWishlist = (itemId: string) => {
+    return wishlist.some(item => item.id === itemId)
+  }
 
-  // Clear all items from wishlist
-  const clearWishlist = useCallback(() => {
-    setItems([])
-    
+  const clearWishlist = () => {
+    setWishlist([])
     toast({
-      title: "Wishlist Cleared",
-      description: "All items have been removed from your wishlist",
+      title: "Wishlist cleared",
+      description: "All items have been removed from your wishlist.",
     })
-  }, [setItems, toast])
+  }
+
+  const wishlistCount = wishlist.length
 
   return {
-    wishlistItems: items,
+    wishlist,
+    wishlistCount,
     addToWishlist,
     removeFromWishlist,
     toggleWishlist,
     isInWishlist,
     clearWishlist,
-    wishlistCount: items.length,
+    isClient
   }
-} 
+}
